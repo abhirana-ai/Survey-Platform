@@ -29,7 +29,7 @@ export const registerUser = async (req, res) => {
     const user = await User.create({
       name,
       email,
-      password : hashedPassword, // We'll hash this in the next step
+      password : hashedPassword, 
     });
 
     res.status(201).json({
@@ -41,6 +41,51 @@ export const registerUser = async (req, res) => {
         email: user.email,
       },
     });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Check if all fields are provided
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Email and password are required.",
+      });
+    }
+
+    // Find user by email
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid email or password.",
+      });
+    }
+
+    // Compare passwords
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordMatch) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid email or password.",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Login successful.",
+    });
+
   } catch (error) {
     res.status(500).json({
       success: false,
