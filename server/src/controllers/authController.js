@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import User from "../models/user.js";
+import generateToken from "../utils/generateToken.js";
 
 export const registerUser = async (req, res) => {
   try {
@@ -15,6 +16,7 @@ export const registerUser = async (req, res) => {
 
     // Check if email already exists
     const existingUser = await User.findOne({ email });
+    
 
     if (existingUser) {
       return res.status(409).json({
@@ -29,7 +31,7 @@ export const registerUser = async (req, res) => {
     const user = await User.create({
       name,
       email,
-      password : hashedPassword, 
+      password: hashedPassword,
     });
 
     res.status(201).json({
@@ -63,8 +65,11 @@ export const loginUser = async (req, res) => {
 
     // Find user by email
     const user = await User.findOne({ email });
-
+    // console.log("User found:", user);
     if (!user) {
+
+      
+
       return res.status(401).json({
         success: false,
         message: "Invalid email or password.",
@@ -73,19 +78,24 @@ export const loginUser = async (req, res) => {
 
     // Compare passwords
     const isPasswordMatch = await bcrypt.compare(password, user.password);
-
+    // console.log("Password Match:", isPasswordMatch);
     if (!isPasswordMatch) {
       return res.status(401).json({
         success: false,
         message: "Invalid email or password.",
       });
     }
-
+const token = generateToken(user._id);  // Token generation
     res.status(200).json({
       success: true,
       message: "Login successful.",
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      },
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
