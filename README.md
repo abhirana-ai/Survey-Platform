@@ -79,6 +79,7 @@ Survey-Platform/
 │   └── package-lock.json
 │
 └── .gitignore
+```
 Getting Started
 
 Follow the steps below to run the project locally.
