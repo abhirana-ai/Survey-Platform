@@ -126,4 +126,40 @@ const updateSurvey = async (req, res) => {
   }
 };
 
-export { createSurvey, getAllSurveys, getSurveyById, updateSurvey };
+// delete survey
+
+const deleteSurvey = async (req, res) => {
+  try {
+    const survey = await Survey.findById(req.params.id);
+
+    if (!survey) {
+      return res.status(404).json({
+        success: false,
+        message: "Survey not found.",
+      });
+    }
+
+    if (survey.createdBy.toString() !== req.user.id) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not authorised to delete this survey.",
+      });
+    }
+
+    await survey.deleteOne();
+
+    res.status(200).json({
+      success: true,
+      message: "Survey deleted successfully.",
+    });
+  } catch (error) {
+    console.error("Delete Survey Error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error.",
+    });
+  }
+};
+
+export { createSurvey, getAllSurveys, getSurveyById, updateSurvey, deleteSurvey };
