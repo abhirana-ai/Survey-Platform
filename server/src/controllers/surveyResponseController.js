@@ -1,15 +1,21 @@
 import Response from "../models/response.js";
 import Survey from "../models/survey.js";
-
-
+import isValidObjectId from "../utils/validateObjectId.js";
 const submitResponse = async (req, res) => {
   try {
     const { survey, answers } = req.body;
 
-    if (!survey || !answers || answers.length === 0) {
+    if (!survey || !Array.isArray(answers) || answers.length === 0) {
       return res.status(400).json({
         success: false,
         message: "Survey ID and answers are required.",
+      });
+    }
+
+    if (!isValidObjectId(survey)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid survey ID.",
       });
     }
 
@@ -19,6 +25,18 @@ const submitResponse = async (req, res) => {
       return res.status(404).json({
         success: false,
         message: "Survey not found.",
+      });
+    }
+
+    const existingResponse = await Response.findOne({
+      survey,
+      respondent: req.user.id,
+    });
+
+    if (existingResponse) {
+      return res.status(409).json({
+        success: false,
+        message: "You have already submitted a response to this survey.",
       });
     }
 
@@ -43,9 +61,14 @@ const submitResponse = async (req, res) => {
   }
 };
 
-
 const getSurveyResponses = async (req, res) => {
   try {
+    if (!isValidObjectId(req.params.surveyId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid survey ID.",
+      });
+    }
     const survey = await Survey.findById(req.params.surveyId);
 
     if (!survey) {
@@ -101,6 +124,5 @@ const getMyResponses = async (req, res) => {
     });
   }
 };
-
 
 export { submitResponse, getSurveyResponses, getMyResponses };
