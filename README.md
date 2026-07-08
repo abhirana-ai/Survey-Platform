@@ -299,19 +299,19 @@ The backend provides API routes for:
 
 ## Dashboard
 
-> Add the dashboard screenshot here.
+![Dashboard](docs/dashboard.png)
 
 ## Survey Management
 
-> Add the survey listing screenshot here.
+![Survey Management](docs/surveys.png)
 
 ## Create Survey
 
-> Add the create survey screenshot here.
+![Create Survey](docs/create-survey.png)
 
 ## Submitted Responses
 
-> Add the submitted responses screenshot here.
+![Submitted Responses](docs/my-responses.png)
 
 ---
 
