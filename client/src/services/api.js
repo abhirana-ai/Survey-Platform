@@ -1,6 +1,17 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+const normalizeBaseUrl = (value) => {
+  if (!value) return '/api';
+
+  const trimmed = value.trim().replace(/\/+$/, '');
+
+  if (trimmed === '/api') return '/api';
+  if (trimmed.endsWith('/api')) return trimmed;
+
+  return `${trimmed}/api`;
+};
+
+const API_BASE_URL = normalizeBaseUrl(import.meta.env.VITE_API_BASE_URL || '/api');
 
 // Flag to toggle mock data mode
 let useMockMode = import.meta.env.VITE_USE_MOCK_DATA === 'true';
