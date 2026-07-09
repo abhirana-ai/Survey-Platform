@@ -297,9 +297,17 @@ The backend provides API routes for:
 
 # 📸 Screenshots
 
+## Landing Page
+
+![Landing Page](docs/landing-page.png)
+
 ## Dashboard
 
 ![Dashboard](docs/dashboard.png)
+
+## Profile
+
+![Profile](docs/profile.png)
 
 ## Survey Management
 
