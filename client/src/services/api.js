@@ -11,7 +11,7 @@ const normalizeBaseUrl = (value) => {
   return `${trimmed}/api`;
 };
 
-const API_BASE_URL = normalizeBaseUrl(import.meta.env.VITE_API_BASE_URL || '/api');
+const API_BASE_URL = normalizeBaseUrl(import.meta.env.VITE_API_BASE_URL || 'https://survey-platform-5.onrender.com');
 
 // Flag to toggle mock data mode
 let useMockMode = import.meta.env.VITE_USE_MOCK_DATA === 'true';

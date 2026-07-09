@@ -6,7 +6,7 @@ import surveyResponseRoutes from "./routes/surveyResponseRoutes.js"
 
 const app = express();
 
-const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:5173')
+const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:5173,https://survey-platform-iota-wine.vercel.app')
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean);
