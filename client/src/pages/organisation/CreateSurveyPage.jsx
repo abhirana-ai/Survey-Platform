@@ -23,9 +23,9 @@ const CreateSurveyPage = () => {
   };
 
   return (
-    <div>
-      <PageHeader title="Create Survey" description="Design a survey with text and multiple-choice questions." />
-      <SurveyBuilder onSubmit={handleSubmit} submitLabel="Create survey" loading={loading} error={error} />
+    <div className="space-y-6">
+      <PageHeader title="Create Survey" description="Publish a new questionnaire template. Specify questions, options, and input formatting." />
+      <SurveyBuilder onSubmit={handleSubmit} submitLabel="Publish Survey Template" loading={loading} error={error} />
     </div>
   );
 };

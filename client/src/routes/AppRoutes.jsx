@@ -10,6 +10,7 @@ import SurveyDetailPage from '../pages/participant/SurveyDetailPage.jsx';
 import EditSurveyPage from '../pages/organisation/EditSurveyPage.jsx';
 import SurveyResultsPage from '../pages/organisation/SurveyResultsPage.jsx';
 import MyResponsesPage from '../pages/participant/MyResponsesPage.jsx';
+import ProfilePage from '../pages/organisation/ProfilePage.jsx';
 import NotFoundPage from '../pages/public/NotFoundPage.jsx';
 import ProtectedRoute from './ProtectedRoute.jsx';
 
@@ -27,6 +28,7 @@ const AppRoutes = () => (
       <Route path="/surveys/:id/edit" element={<EditSurveyPage />} />
       <Route path="/surveys/:id/results" element={<SurveyResultsPage />} />
       <Route path="/my-responses" element={<MyResponsesPage />} />
+      <Route path="/profile" element={<ProfilePage />} />
     </Route>
 
     <Route path="*" element={<NotFoundPage />} />
