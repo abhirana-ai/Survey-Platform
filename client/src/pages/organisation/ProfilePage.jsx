@@ -5,6 +5,8 @@ import Input from '../../components/common/Input.jsx';
 import Card from '../../components/common/Card.jsx';
 import PageHeader from '../../components/common/PageHeader.jsx';
 import { User, Mail, Shield, Award, BarChart3, LogOut, CheckCircle } from 'lucide-react';
+import { getSurveys } from '../../services/surveyService.js';
+import { getMyResponses } from '../../services/responseService.js';
 
 const ProfilePage = () => {
   const { user, logout } = useAuth();
@@ -20,14 +22,28 @@ const ProfilePage = () => {
   const [passError, setPassError] = useState('');
 
   useEffect(() => {
-    // Load local stats
-    const surveys = JSON.parse(localStorage.getItem('mock_db_surveys') || '[]');
-    const responses = JSON.parse(localStorage.getItem('mock_db_responses') || '[]');
+    const fetchStats = async () => {
+      try {
+        const [surveyData, responseData] = await Promise.all([
+          getSurveys(),
+          getMyResponses()
+        ]);
+        
+        const surveysList = surveyData.surveys || [];
+        const responsesList = responseData.responses || [];
+        
+        const createdCount = surveysList.filter(s => s.createdBy === user?.id || s.createdBy === 'usr_default123').length;
+        const completedCount = responsesList.length;
+        
+        setStats({ created: createdCount, completed: completedCount });
+      } catch (err) {
+        console.error('Error fetching profile stats:', err);
+      }
+    };
     
-    const createdCount = surveys.filter(s => s.createdBy === user?.id || s.createdBy === 'usr_default123').length;
-    const completedCount = responses.filter(r => r.respondent === user?.id).length;
-    
-    setStats({ created: createdCount, completed: completedCount });
+    if (user) {
+      fetchStats();
+    }
   }, [user]);
 
   const handleUpdateInfo = (e) => {

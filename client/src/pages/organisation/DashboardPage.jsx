@@ -95,7 +95,7 @@ const DashboardPage = () => {
         </div>
         <div className="shrink-0">
           <Link to="/surveys/create">
-            <Button className="bg-white text-violet-700 hover:bg-slate-50 font-bold shadow-md shadow-violet-950/20">
+            <Button variant="custom" className="bg-white text-black hover:bg-violet-700 hover:text-white font-bold shadow-md shadow-violet-950/20">
               <PlusCircle size={16} className="mr-2" />
               New Survey
             </Button>
